@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Collection from './pages/Collection'
 import Contact from './pages/Contact'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
@@ -19,9 +20,9 @@ const App = () => {
         <Route path='/place-order' element={<h1>PlaceOrderr</h1>} />
         <Route path='/cart' element={<h1>Cart</h1>} />
         <Route path='/orders' element={<h1>Orders</h1>} />
-                  
-
+                
       </Routes>
+       <Footer/>
     
     
     

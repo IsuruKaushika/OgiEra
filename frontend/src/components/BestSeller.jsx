@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import { useState, useEffect } from 'react';
 
-
 import Title from '../components/Title';
 import ProductItem from './ProductItem';
 
