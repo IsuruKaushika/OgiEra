@@ -1,8 +1,6 @@
 import { createContext} from "react";
 import { products } from "../assets/assets";
-import { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
+
 
 
 export const ShopContext = createContext();
