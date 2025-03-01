@@ -7,9 +7,13 @@ import Contact from './pages/Contact'
 import Footer from './components/Footer'
 import SearchBar from './components/SearchBar'
 import Product from './pages/Product'
+import Cart from './pages/Cart'
+import PlaceOrder from './pages/PlaceOrder'
+import Orders from './pages/Orders'
 
 import {ToastContainer,toast} from 'react-toastify'//used for notifications
 import 'react-toastify/dist/ReactToastify.css'
+
 
 
 const App = () => {
@@ -25,9 +29,9 @@ const App = () => {
         <Route path='/about' element={<h1>About</h1>} />
         <Route path='/product/:productId' element={<Product/>} />
         <Route path='/login' element={<h1>Login</h1>} />
-        <Route path='/place-order' element={<h1>PlaceOrderr</h1>} />
-        <Route path='/cart' element={<h1>Cart</h1>} />
-        <Route path='/orders' element={<h1>Orders</h1>} />
+        <Route path='/place-order' element={<PlaceOrder/>} />
+        <Route path='/cart' element={<Cart/>} />
+        <Route path='/orders' element={<Orders/>} />
                 
       </Routes>
        <Footer/>
