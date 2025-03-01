@@ -1,36 +1,36 @@
 import { createContext} from "react";
 import { products } from "../assets/assets";
 import { useState } from "react";
+import PropTypes from 'prop-types';
 
 
 
 export const ShopContext = createContext();
 const ShopContextProvider = (props) => {
     const currency = '$';
-    const deliveryFee = 50;
+    const delivery_Fee = 50;
     const [search, setSearch] = useState('');
-    const [showSearch, setShowSearch] = useState(true)
+    const [showSearch, setShowSearch] = useState(false)
 
 
     const value = {
         products,
         currency,
-        deliveryFee,
+        delivery_Fee, 
         search,
         setSearch,
         showSearch,
         setShowSearch
     }
 
-
-
-
-    const contextValue = {products};
     return (
-        <ShopContext.Provider value = {contextValue}>
+        <ShopContext.Provider value = {value}>
             {props.children}
         </ShopContext.Provider>
     )
 }
+ShopContextProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 export default ShopContextProvider;
