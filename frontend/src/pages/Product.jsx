@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import ProductItem from '../components/ProductItem'
 import { assets } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
+import RelatedProducts from '../components/RelatedProducts'
 
 
 const Product = () => {
@@ -31,7 +32,7 @@ const Product = () => {
 
   useEffect(()=>{
     fetchProductData();
-  },[productId])
+  },[productId,products])
 
   return productData ? (
     <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
@@ -88,15 +89,16 @@ const Product = () => {
       <b className='border px-5 py-3 text-sm'>Description</b>
       <p className='border px-5 py-3 text-sm'>Reviews (122)</p>
       </div>
-      <div className='flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500'></div>
       <div className='flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500'>
-        <p>dfkg;lfk'k'sk;'k;fd'k;fdks'fdks;lfkds'lfkds'lfkds'lfkds'lfkds'lfkds'lfk </p>
-
-
+        <p>An e-commerce website is an online platform that facilitates the buying and selling </p>
+        <p>E-commerce websites typically display Products or services along with detailed</p>
       </div>
+      </div>
+      {/*related products*/}
+      
+      <RelatedProducts category={productData.category} subCategory={productData.subCategory}/>
+    </div>
 
-    </div>
-    </div>
     
     
   ) :<div className ='opacity-0'></div>
