@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
+
 import Title from "../components/Title";
 import CartTotal from "../components/CartTotal";
 import { assets } from "../assets/assets";
-
-
+import axios from "axios";
+import { toast } from "react-toastify";
 import { ShopContext } from "../context/ShopContext";
 
 
@@ -11,11 +12,76 @@ import { ShopContext } from "../context/ShopContext";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
+  const {navigate,backendUrl,token,cartItems,setCartItems,getCartAmount,delivery_fee,products} = useContext(ShopContext);
 
-  const {navigate} = useContext(ShopContext);
+  const [formData,setFormData]=useState({
+    firstName:'',
+    lastName:'',
+    email:'',
+    street:'',
+    city:'',
+    state:'',
+    zipcode:'',
+    country:'',
+    phone:''
+    ,})
 
+    const onChangeHandler =(event)=>{
+      const name=event.target.name;
+      const value=event.target.value;
+
+      setFormData(data=>({...data,[name]:value}))
+    }
+
+  const onSubmitHandler =async(event)=>{
+    event.preventDefault();
+    try{
+      let orderItems =[]
+
+      for(const items in cartItems){
+        for(const item in cartItems[items]){
+          if(cartItems[items][item]>0){
+            const itemInfo = structuredClone(products.find(product=>product._id===items))
+            if(itemInfo){
+              itemInfo.size=item
+              itemInfo.quantity=cartItems[items][item]
+              orderItems.push(itemInfo)
+            }
+          }
+      }
+    }
+      let orderData={
+        address:formData,
+        items:orderItems,
+        amount:getCartAmount()+delivery_fee
+      }
+      switch(method){
+        //API calls COD
+        case 'cod':
+          const response =await axios.post(backendUrl+'/api/order/place',orderData,{headers:{token}})
+          console.log(response);
+          console.log(delivery_fee);
+          if(response.data.success){
+            toast.success(response.data.message)
+            setCartItems({})
+            navigate('/orders')
+          }else{
+            toast.error(response.data.message)
+          }
+          break;
+
+        
+
+        default:
+          break;
+
+      }
+  }catch(error){
+    console.log(error)
+  }
+}
   return (
-    <div className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] px-4">
+    <form onSubmit={onSubmitHandler} className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] px-4">
       {/* ---------- Left Side (Delivery Information) ---------- */}
       <div className="flex flex-col gap-4 w-full sm:max-w-[480px]">
         <div className="text-xl sm:text-2xl my-3">
@@ -23,23 +89,23 @@ const PlaceOrder = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <input className="border p-2 rounded w-full" type="text" placeholder="First name" />
-          <input className="border p-2 rounded w-full" type="text" placeholder="Last name" />
+          <input required onChange={onChangeHandler} name='firstName'value={formData.firstName} className="border p-2 rounded w-full" type="text" placeholder="First name" />
+          <input  required onChange={onChangeHandler} name='lastName'value={formData.lastName}className="border p-2 rounded w-full" type="text" placeholder="Last name" />
         </div>
-        <input className="border p-2 rounded w-full" type="email" placeholder="Email address" />
-        <input className="border p-2 rounded w-full" type="text" placeholder="Street" />
+        <input required onChange={onChangeHandler} name='email'value={formData.email}className="border p-2 rounded w-full" type="email" placeholder="Email address" />
+        <input required onChange={onChangeHandler} name='street'value={formData.street} className="border p-2 rounded w-full" type="text" placeholder="Street" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <input className="border p-2 rounded w-full" type="text" placeholder="City" />
-          <input className="border p-2 rounded w-full" type="text" placeholder="State" />
+          <input required onChange={onChangeHandler} name='city'value={formData.city} className="border p-2 rounded w-full" type="text" placeholder="City" />
+          <input required onChange={onChangeHandler} name='state'value={formData.state}className="border p-2 rounded w-full" type="text" placeholder="State" />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <input className="border p-2 rounded w-full" type="text" placeholder="Zipcode" />
-          <input className="border p-2 rounded w-full" type="text" placeholder="Country" />
+          <input required onChange={onChangeHandler} name='zipcode'value={formData.zipcode}className="border p-2 rounded w-full" type="text" placeholder="Zipcode" />
+          <input required onChange={onChangeHandler} name='country'value={formData.country} className="border p-2 rounded w-full" type="text" placeholder="Country" />
         </div>
 
-        <input className="border p-2 rounded w-full" type="tel" placeholder="Phone" />
+        <input required onChange={onChangeHandler} name='phone'value={formData.phone}className="border p-2 rounded w-full" type="tel" placeholder="Phone" />
       </div>
 
       {/* ---------- Right Side (Cart Totals) ---------- */}
@@ -86,11 +152,11 @@ const PlaceOrder = () => {
         </div>
 
         {/* ---- Place Order Button ---- */}
-        <button onClick={()=>navigate('/orders')} className="w-full mt-6 bg-black text-white py-3 rounded-md text-lg font-medium hover:bg-gray-800 transition">
+        <button type='submit'  className="w-full mt-6 bg-black text-white py-3 rounded-md text-lg font-medium hover:bg-gray-800 transition">
           Place Order
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
