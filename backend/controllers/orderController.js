@@ -2,7 +2,7 @@
 
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
-import toast from "react-hot-toast";
+
 
 const placeOrder=async(req,res)=>{
 
@@ -26,7 +26,7 @@ const placeOrder=async(req,res)=>{
         await userModel.findByIdAndUpdate(userId,{cartData:{}})
 
         res.json({success:true,message:"Order Placed Successfully"})
-        toast.success(`Order Placed Successfully`);
+       
 
     }catch(error){
         console.log(error)
