@@ -26,7 +26,7 @@ const Orders = () => {
                             <p>Size:M</p>
                             
                         </div>
-                        <p className='mt-2'>Data: <span className='text-gray-400'>25, Jul, 2024</span></p>
+                        <p className='mt-2'>Data: <span className='text-gray-400'>04, Mar, 2025</span></p>
                     </div>
                     </div>
                     <div className='md:w-1/2 flex justify-between'>

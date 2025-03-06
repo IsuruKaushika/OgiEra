@@ -8,7 +8,7 @@ const Footer = () => {
             <div>
                 <img src={assets.logo} className='mb-5 w-32'/>
                 <p className='w-full md:w-2/3 text-gray-600'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos?
+                Hurry, Shop Now and Embrace the Essence of Ogi’s Unique Style!
                 </p>
 
             </div>

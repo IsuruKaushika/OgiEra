@@ -116,6 +116,7 @@ const getProductsData = async () => {
     try{
         const response = await axios.get(backendUrl +"/api/product/list")
         if(response.data.success){
+            console.log(response.data.products);
             setProducts(response.data.products);
         }else{
             toast.error(response.data.message)
